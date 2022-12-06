@@ -78,6 +78,7 @@ public class PaintingLogic : MonoBehaviour
 
     public void EnableTyreSelection()
     {
+        CameraSwitch.Instance.ChangeCamera();
         foreach (GameObject item in chasisList)
             item.transform.GetChild(0).GetComponent<Animator>().enabled = true;
 

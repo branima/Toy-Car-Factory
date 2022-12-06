@@ -28,6 +28,9 @@ public class SellingBoxLogic : MonoBehaviour
 
     public GameObject tutorialArrow;
 
+    int lastBoxIdx;
+    public List<GameObject> carBoxes;
+
     void Start()
     {
         capacityText.text = currCapacity + "/" + maxCapacity;
@@ -36,6 +39,7 @@ public class SellingBoxLogic : MonoBehaviour
         boxContent = new List<Transform>();
         fullCapVisualsOn = false;
         capacityText.fontSharedMaterial = normalCapTextMat;
+        lastBoxIdx = -1;
     }
 
     void OnTriggerEnter(Collider other)
@@ -43,6 +47,7 @@ public class SellingBoxLogic : MonoBehaviour
         ScaleToNothing stn = other.GetComponent<ScaleToNothing>();
         if (stn == null)
         {
+            TruckFillingVisuals(other.transform.GetChild(other.transform.childCount - 1));
             if (currCapacity < maxCapacity)
             {
                 if (tutorialArrow != null && !tutorialArrow.activeSelf)
@@ -83,9 +88,12 @@ public class SellingBoxLogic : MonoBehaviour
     public void ReturnToPool(Transform carBox)
     {
         mainTrackScript.RemoveCarFromList(carBox);
-        Transform car = carBox.GetChild(1);
-        car.parent = null;
-        car.GetComponent<CarAttributes>().GetOriginFactory().EnqueueCar(car);
+        if (carBox.childCount > 1)
+        {
+            Transform car = carBox.GetChild(1);
+            car.parent = null;
+            car.GetComponent<CarAttributes>().GetOriginFactory().EnqueueCar(car);
+        }
         carBox.gameObject.SetActive(false);
         ObjectPooler.Instance.Enqueue("Box", carBox.gameObject);
     }
@@ -118,12 +126,26 @@ public class SellingBoxLogic : MonoBehaviour
         }
         boxContent.Clear();
 
+        lastBoxIdx = -1;
+        foreach (GameObject item in carBoxes)
+        {
+            if (item.activeSelf)
+            {
+                Transform car = item.transform.GetChild(1);
+                car.parent = null;
+                car.GetComponent<CarAttributes>().GetOriginFactory().EnqueueCar(car);
+                item.SetActive(false);
+            }
+        }
+
         currCapacity = 0;
         capacityText.text = currCapacity + "/" + maxCapacity;
 
         fullCapVisualsOn = false;
         textAnimator.SetBool("full", false);
         capacityText.fontSharedMaterial = normalCapTextMat;
+
+
     }
 
     public int GetCurrentCapacity() => currCapacity;
@@ -134,5 +156,16 @@ public class SellingBoxLogic : MonoBehaviour
         capacityText.text = currCapacity + "/" + maxCapacity;
     }
 
-
+    void TruckFillingVisuals(Transform car)
+    {
+        lastBoxIdx++;
+        if (lastBoxIdx < carBoxes.Count)
+        {
+            carBoxes[lastBoxIdx].SetActive(true);
+            car.parent = carBoxes[lastBoxIdx].transform;
+            car.position = car.parent.GetChild(0).position;
+            car.rotation = car.parent.GetChild(0).rotation;
+            car.localScale = car.parent.GetChild(0).localScale; ///1.73
+        }
+    }
 }
