@@ -49,4 +49,12 @@ public class CameraSwitch : MonoBehaviour
         reposition = true;
         repoTime = 0f;
     }
+
+    public void SetOgPosition()
+    {
+        currActive = 0;
+        currActiveTransform = positions[currActive];
+        cam.position = currActiveTransform.position;
+        cam.rotation = currActiveTransform.rotation;
+    }
 }

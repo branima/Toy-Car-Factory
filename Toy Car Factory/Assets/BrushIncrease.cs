@@ -10,23 +10,12 @@ public class BrushIncrease : MonoBehaviour
     float ogRadius;
     float sizedDownRadius;
 
-    void Start()
+    void Awake()
     {
         ogRadius = brushScript.Radius;
         sizedDownRadius = brushScript.Radius / 2f;
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            brushScript.Radius = ogRadius;
-            Debug.Log("Q");
-        }
-        else if (Input.GetKeyDown(KeyCode.E))
-        {
-            brushScript.Radius = sizedDownRadius;
-            Debug.Log("E");
-        }
-    }
+    public void BigBrush() => brushScript.Radius = ogRadius;
+    public void SmallBrush() => brushScript.Radius = sizedDownRadius;
 }

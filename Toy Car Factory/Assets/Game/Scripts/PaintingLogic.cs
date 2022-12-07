@@ -38,10 +38,14 @@ public class PaintingLogic : MonoBehaviour
     public GameObject tyreSelectionPanel;
     int activeTyreIdx;
 
+    public Toggle bigBrushToggle;
+    public BrushIncrease brushSizeScript;
+
     public void SelectColor(Material colorMat) => brush.Color = colorMat.color;
 
     public void EnableChasisSelection()
     {
+        CameraSwitch.Instance.SetOgPosition();
         foreach (GameObject chassis in chasisList)
             chassis.SetActive(false);
 
@@ -74,6 +78,7 @@ public class PaintingLogic : MonoBehaviour
         colorView.SetActive(true);
         rotationScript.enabled = false;
         brush.gameObject.SetActive(true);
+        bigBrushToggle.isOn = true;
     }
 
     public void EnableTyreSelection()
@@ -107,6 +112,9 @@ public class PaintingLogic : MonoBehaviour
         colorView.SetActive(false);
         brush.gameObject.SetActive(false);
     }
+
+    public void BigBrush() => brushSizeScript.BigBrush();
+    public void SmallBrush() => brushSizeScript.SmallBrush();
 
     public void Confirm()
     {
