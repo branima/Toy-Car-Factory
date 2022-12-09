@@ -79,7 +79,7 @@ public class FactoryLogic : MonoBehaviour
 
         ///MATERIAL
         carPaint = Instantiate(carMat);
-        Texture2D texture = new Texture2D(512, 512, TextureFormat.RGBA32, carPaint.mainTexture.mipmapCount, false);
+        Texture2D texture = new Texture2D(carPaint.mainTexture.width, carPaint.mainTexture.height, TextureFormat.RGBA32, carPaint.mainTexture.mipmapCount, false);
         Graphics.CopyTexture(carPaint.mainTexture, texture);
         carPaint.mainTexture = texture;
         this.matIdx = matIdx;
