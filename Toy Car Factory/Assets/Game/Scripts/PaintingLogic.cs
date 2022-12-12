@@ -27,6 +27,9 @@ public class PaintingLogic : MonoBehaviour
 
     [Header("Painting")]
     public GameObject paintingPanel;
+    public Renderer bodyRenderer;
+    public Renderer haubaRenderer;
+    public Renderer roofRenderer;
 
     [Header("Spoiler")]
     public GameObject spoilerPanel;
@@ -43,18 +46,8 @@ public class PaintingLogic : MonoBehaviour
 
     public void EnableChasisSelection()
     {
-        ///CameraSwitch.Instance.SetOgPosition();
-
         foreach (GameObject chassis in chasisList)
-        {
-            /*  /// NEW IMPLEMENTATION PURPOSES
-            chassis.transform.GetChild(0).GetComponent<Animator>().enabled = false;
-            foreach (Transform tyreSet in chassis.transform)
-                tyreSet.gameObject.SetActive(false);
-            chassis.transform.GetChild(0).gameObject.SetActive(true);
-            */
             chassis.SetActive(false);
-        }
 
         chasisSelectionPanel.SetActive(true);
         activeCarIdx = 0;
@@ -64,7 +57,6 @@ public class PaintingLogic : MonoBehaviour
     public void ChasisSwitch(int newChasisIdx)
     {
         chasisList[activeCarIdx].gameObject.SetActive(false);
-        //chasisList[newChasisIdx].transform.rotation = chasisList[activeCarIdx].transform.rotation;
         activeCarIdx = newChasisIdx;
         chasisList[activeCarIdx].SetActive(true);
     }
@@ -112,7 +104,33 @@ public class PaintingLogic : MonoBehaviour
         }
     }
 
-    public void SetColor(Material mat) => activeCarMeshRenderers[angleIdx - 1].material = mat;
+    //public void SetColor(Material mat) => activeCarMeshRenderers[angleIdx - 1].material = mat;
+    public void SetColor(Material mat)
+    {
+        if (angleIdx == 1)
+        {  /// Body
+            Material bodyMat = bodyRenderer.sharedMaterial;
+            bodyMat.SetColor("_oldColor", bodyMat.GetColor("_newColor"));
+            bodyMat.SetColor("_newColor", mat.color);
+            bodyRenderer.GetComponent<Animation>().Play("Body Fill Anim");
+        }
+        else if (angleIdx == 2)
+        { /// Hauba
+            Debug.Log("Ben");
+            Material haubaMat = haubaRenderer.sharedMaterial;
+            haubaMat.SetColor("_oldColor", haubaMat.GetColor("_newColor"));
+            haubaMat.SetColor("_newColor", mat.color);
+            haubaRenderer.GetComponent<Animation>().Play("Hauba Fill Anim");
+        }
+        else if (angleIdx == 3)
+        { /// Roof
+            Material roofMat = roofRenderer.sharedMaterial;
+            roofMat.SetColor("_oldColor", roofMat.GetColor("_newColor"));
+            roofMat.SetColor("_newColor", mat.color);
+            roofRenderer.GetComponent<Animation>().Play("Roof Fill Anim");
+
+        }
+    }
 
     public void SelectSpoiler(int spoilerIdx)
     {

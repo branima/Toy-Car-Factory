@@ -588,6 +588,9 @@ MonoBehaviour:
   - {fileID: 6269062277223733173}
   chasisSelectionPanel: {fileID: 1680054995}
   paintingPanel: {fileID: 1616829511}
+  bodyRenderer: {fileID: 3516658565277868118}
+  haubaRenderer: {fileID: 9214169603068836501}
+  roofRenderer: {fileID: 3443519417552189481}
   spoilerPanel: {fileID: 1727212537}
   stickeringPanel: {fileID: 382960105}
   tyreSelectionPanel: {fileID: 290126274}
@@ -20945,7 +20948,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3d4afa416428ccd4595b6a532188ed56, type: 2}
+  - {fileID: 2100000, guid: 0cc5b032cdd18dc40b7e9e6256233d7f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -24400,6 +24403,7 @@ GameObject:
   - component: {fileID: 3077169039803456842}
   - component: {fileID: 4872260775897594002}
   - component: {fileID: 3516658565277868118}
+  - component: {fileID: 1995235420916708122}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -24407,6 +24411,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!111 &1995235420916708122
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1995235420916708120}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 2ccbf17a6b94c7a4cb1a2155cadd783e, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 2ccbf17a6b94c7a4cb1a2155cadd783e, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!33 &2019911418351429048
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -28138,7 +28158,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a7337966cb940e647881d4ef6e7210dd, type: 2}
+  - {fileID: 2100000, guid: ba471f8e8d771fd45b16f46d173b3c80, type: 2}
   - {fileID: 2100000, guid: 3b6d792b226ffc6458325227577575f7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -28250,7 +28270,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a7337966cb940e647881d4ef6e7210dd, type: 2}
+  - {fileID: 2100000, guid: 0cc5b032cdd18dc40b7e9e6256233d7f, type: 2}
   - {fileID: 2100000, guid: 3b6d792b226ffc6458325227577575f7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -34209,6 +34229,7 @@ GameObject:
   - component: {fileID: 3871442320571537375}
   - component: {fileID: 7228411426130302582}
   - component: {fileID: 9214169603068836501}
+  - component: {fileID: 7605237829314982683}
   m_Layer: 0
   m_Name: haub
   m_TagString: Untagged
@@ -34216,6 +34237,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!111 &7605237829314982683
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7605237829314982682}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 72b80e7090332e643a0f65cc18b414ff, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 72b80e7090332e643a0f65cc18b414ff, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &7629492588249546903
 GameObject:
   m_ObjectHideFlags: 0
@@ -35209,6 +35246,7 @@ GameObject:
   - component: {fileID: 5482535153957326843}
   - component: {fileID: 4526185029825723428}
   - component: {fileID: 3443519417552189481}
+  - component: {fileID: 8426732940635966256}
   m_Layer: 0
   m_Name: Roof
   m_TagString: Untagged
@@ -35216,6 +35254,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!111 &8426732940635966256
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8426732940635966255}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 0cda2a234462cf846810383003b28c11, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 0cda2a234462cf846810383003b28c11, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!33 &8468496330273364630
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -37103,7 +37157,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a7337966cb940e647881d4ef6e7210dd, type: 2}
+  - {fileID: 2100000, guid: 2dec44ee0678a43479c0fd8a4f84276b, type: 2}
   - {fileID: 2100000, guid: 3b6d792b226ffc6458325227577575f7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
