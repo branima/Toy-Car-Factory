@@ -36,10 +36,10 @@ Material:
     - Vector1_62b6053c546443aebfac0e1c50a2cc0e: 1
     - Vector1_91b447eab34e49209ef125337face8fd: 7
     - _fillThreshold: -3
-    - _fill_Threshold: -3
+    - _fill_Threshold: 0
     - _fill_threshold: 0
     m_Colors:
     - Color_cf4c9092c5114cf7aa15103c29db45fb: {r: 1, g: 1, b: 1, a: 0}
-    - _newColor: {r: 0.26666665, g: 0.65882355, b: 0.9490196, a: 1}
-    - _oldColor: {r: 1, g: 1, b: 1, a: 1}
+    - _newColor: {r: 0.9529411, g: 0.8666667, b: 0, a: 1}
+    - _oldColor: {r: 0.9529411, g: 0.8666667, b: 0, a: 1}
   m_BuildTextureStacks: []

@@ -9,9 +9,9 @@ public class FactoryLogic : MonoBehaviour
     Transform selectedCarPrefab;
     int selectedCarIdx;
     int selectedTyresIdx;
+    int selectedSpoilerIdx;
     Transform carInstance;
-    [SerializeField]
-    Material carPaint;
+    List<Material> carPaint;
     int matIdx;
 
     public int numberOfInstances = 200;
@@ -32,18 +32,29 @@ public class FactoryLogic : MonoBehaviour
         miniTrackScript = GetComponentInChildren<MiniTrackLogic>();
         carPool = new Queue<Transform>();
         selectedCarPrefab = carPrefabs[selectedCarIdx].transform;
-        foreach (Transform tyreSet in selectedCarPrefab)
-            tyreSet.gameObject.SetActive(false);
-        selectedCarPrefab.GetChild(selectedTyresIdx).gameObject.SetActive(true);
+        Debug.Log(selectedCarPrefab.GetChild(selectedCarPrefab.childCount - 2) + ", " + selectedCarPrefab.GetChild(selectedCarPrefab.childCount - 1));
+        selectedCarPrefab.GetChild(selectedCarPrefab.childCount - 2).GetChild(selectedSpoilerIdx).gameObject.SetActive(true);
+        selectedCarPrefab.GetChild(selectedCarPrefab.childCount - 1).GetChild(selectedTyresIdx).gameObject.SetActive(true);
         Transform carInst;
         for (int i = 0; i < numberOfInstances; i++)
         {
             carInst = Instantiate(selectedCarPrefab, Vector3.zero, selectedCarPrefab.rotation, null).transform;
             carInst.GetComponent<CarAttributes>().SetOriginFactory(this);
 
-            Material[] mats = carInst.GetComponent<Renderer>().materials;
-            mats[matIdx] = carPaint;
-            carInst.GetComponent<Renderer>().materials = mats;
+            for (int j = 0; j < 3; j++)
+            {
+                Renderer rend = carInst.GetChild(j).GetComponent<Renderer>();
+                Material[] mats = rend.materials;
+                for (int k = 0; k < 2; k++)
+                    mats[k] = carPaint[2 * j + k];
+                rend.materials = mats;
+            }
+
+            Transform spoiler = carInst.GetChild(carInst.childCount - 2).GetChild(selectedSpoilerIdx);
+            spoiler.GetComponent<MeshRenderer>().sharedMaterial = carPaint[0];
+            foreach (Transform item in spoiler)
+                item.GetComponent<MeshRenderer>().sharedMaterial = carPaint[2];
+
             carPool.Enqueue(carInst);
         }
     }
@@ -71,17 +82,16 @@ public class FactoryLogic : MonoBehaviour
 
     //public void SetCarMat(Material carMat) => /// posalji which car, which wheels
 
-    public void SetupCar(int carPrefabIdx, int tyreSetIdx, Material carMat, int matIdx)
+    public void SetupCar(int carPrefabIdx, int tyreSetIdx, int spoilerIdx, List<MeshRenderer> meshRenderers)
     {
         ///CHASSIS + TYRE 
         selectedCarIdx = carPrefabIdx;
         selectedTyresIdx = tyreSetIdx;
+        selectedSpoilerIdx = spoilerIdx;
 
-        ///MATERIAL
-        carPaint = Instantiate(carMat);
-        Texture2D texture = new Texture2D(carPaint.mainTexture.width, carPaint.mainTexture.height, TextureFormat.RGBA32, carPaint.mainTexture.mipmapCount, false);
-        Graphics.CopyTexture(carPaint.mainTexture, texture);
-        carPaint.mainTexture = texture;
-        this.matIdx = matIdx;
+        carPaint = new List<Material>();
+        foreach (MeshRenderer item in meshRenderers)
+            foreach (Material mat in item.materials)
+                carPaint.Add(Instantiate(mat));
     }
 }
