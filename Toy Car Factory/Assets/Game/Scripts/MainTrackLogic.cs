@@ -27,7 +27,7 @@ public class MainTrackLogic : MonoBehaviour
         {
             if (car != null)
             {
-                toTheMiddleMovement = car.right * car.position.x;
+                toTheMiddleMovement = -car.right * car.position.x;
                 car.transform.position += (transform.forward + toTheMiddleMovement) * trackSpeed * Time.deltaTime;
             }
         }
@@ -35,6 +35,7 @@ public class MainTrackLogic : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
+        //OTKACI mini trackZ
         other.transform.GetComponent<Collider>().material = null;
         if (!onTrackCars.Contains(other.transform))
             onTrackCars.Add(other.transform);

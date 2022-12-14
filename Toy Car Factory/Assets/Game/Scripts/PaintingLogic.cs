@@ -141,10 +141,10 @@ public class PaintingLogic : MonoBehaviour
 
     public void SelectSpoiler(int spoilerIdx)
     {
+        spoilerGroup.GetComponent<Animation>().Play("Spoiler Anim");
         spoilerGroup.GetChild(activeSpoilerIdx).gameObject.SetActive(false);
         activeSpoilerIdx = spoilerIdx;
         spoilerGroup.GetChild(activeSpoilerIdx).gameObject.SetActive(true);
-
     }
 
     public void SelectStickers(int stickerIdx)

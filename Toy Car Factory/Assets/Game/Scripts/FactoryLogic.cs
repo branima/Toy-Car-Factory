@@ -32,14 +32,15 @@ public class FactoryLogic : MonoBehaviour
         miniTrackScript = GetComponentInChildren<MiniTrackLogic>();
         carPool = new Queue<Transform>();
         selectedCarPrefab = carPrefabs[selectedCarIdx].transform;
-        Debug.Log(selectedCarPrefab.GetChild(selectedCarPrefab.childCount - 2) + ", " + selectedCarPrefab.GetChild(selectedCarPrefab.childCount - 1));
-        selectedCarPrefab.GetChild(selectedCarPrefab.childCount - 2).GetChild(selectedSpoilerIdx).gameObject.SetActive(true);
-        selectedCarPrefab.GetChild(selectedCarPrefab.childCount - 1).GetChild(selectedTyresIdx).gameObject.SetActive(true);
+        //Debug.Log(selectedCarPrefab.GetChild(selectedCarPrefab.childCount - 2) + ", " + selectedCarPrefab.GetChild(selectedCarPrefab.childCount - 1));
         Transform carInst;
         for (int i = 0; i < numberOfInstances; i++)
         {
             carInst = Instantiate(selectedCarPrefab, Vector3.zero, selectedCarPrefab.rotation, null).transform;
             carInst.GetComponent<CarAttributes>().SetOriginFactory(this);
+
+            carInst.GetChild(selectedCarPrefab.childCount - 2).GetChild(selectedSpoilerIdx).gameObject.SetActive(true);
+            carInst.GetChild(selectedCarPrefab.childCount - 1).GetChild(selectedTyresIdx).gameObject.SetActive(true);
 
             for (int j = 0; j < 3; j++)
             {

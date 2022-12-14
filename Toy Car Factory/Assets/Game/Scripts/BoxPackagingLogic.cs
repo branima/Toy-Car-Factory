@@ -10,28 +10,10 @@ public class BoxPackagingLogic : MonoBehaviour
     public MainTrackLogic mainTrackScript;
     public MiniTrackLogic miniTrackLogic;
 
-    //public int numberOfInstances = 200;
-    //Queue<Transform> boxPool;
-
     public Animator handAnimator;
     public Animator boxScaleAnimator;
 
     Transform car;
-
-    /*
-    [SerializeField]
-    int boxPoolCount;
-
-    void Start()
-    {
-        boxPool = new Queue<Transform>();
-        for (int i = 0; i < numberOfInstances; i++)
-            boxPool.Enqueue(Instantiate(boxPrefab, Vector3.zero, boxPrefab.transform.rotation, null).transform);
-    }
-    
-
-    void Update() => boxPoolCount = boxPool.Count;
-    */
 
     void OnTriggerEnter(Collider other)
     {

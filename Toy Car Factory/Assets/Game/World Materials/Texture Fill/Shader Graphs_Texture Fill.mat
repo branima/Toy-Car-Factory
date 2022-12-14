@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Roof Mat
-  m_Shader: {fileID: -6465566751694194690, guid: bc158003c6b94f04dac4f0c642a1efc5, type: 3}
+  m_Name: Shader Graphs_Texture Fill
+  m_Shader: {fileID: -6465566751694194690, guid: 7a084da6ef4532c4daff5ecde599a2f8, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,6 +19,14 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _newTexture:
+        m_Texture: {fileID: 2800000, guid: e524afed7fd37cd48b7f802f2b01785d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _oldTexture:
+        m_Texture: {fileID: 2800000, guid: 5f1800f2b93c94349b2155ec82197bf2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -32,14 +40,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_40ac31364c7e4d68ba6e65b297454eac: 0.25
-    - Vector1_62b6053c546443aebfac0e1c50a2cc0e: 1
-    - Vector1_91b447eab34e49209ef125337face8fd: 7
-    - _fillThreshold: -3
-    - _fill_Threshold: 0.5
-    - _fill_threshold: 0
-    m_Colors:
-    - Color_cf4c9092c5114cf7aa15103c29db45fb: {r: 1, g: 1, b: 1, a: 0}
-    - _newColor: {r: 1, g: 0.13584897, b: 0.24737859, a: 1}
-    - _oldColor: {r: 1, g: 0.13584894, b: 0.24737856, a: 1}
+    - _fill_Threshold: 4.1
+    - _metallic: 1
+    - _modif: 25
+    - _smooth: 0.25
+    m_Colors: []
   m_BuildTextureStacks: []
