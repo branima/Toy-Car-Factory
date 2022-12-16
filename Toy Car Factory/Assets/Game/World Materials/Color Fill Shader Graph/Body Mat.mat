@@ -32,7 +32,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_40ac31364c7e4d68ba6e65b297454eac: 0.25
+    - Vector1_40ac31364c7e4d68ba6e65b297454eac: 0.5
     - Vector1_62b6053c546443aebfac0e1c50a2cc0e: 1
     - Vector1_91b447eab34e49209ef125337face8fd: 25
     - _fillThreshold: -3
