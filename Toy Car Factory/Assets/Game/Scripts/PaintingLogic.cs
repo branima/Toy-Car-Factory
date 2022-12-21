@@ -71,13 +71,33 @@ public class PaintingLogic : MonoBehaviour
         roofMat.SetColor("_newColor", Color.white);
 
         foreach (GameObject chassis in chasisList)
-        {
             chassis.SetActive(false);
-        }
 
         chasisSelectionPanel.SetActive(true);
         activeCarIdx = 0;
         chasisList[activeCarIdx].gameObject.SetActive(true);
+
+        angleIdx = 0;
+        tyreSelectionPanel.SetActive(false);
+        CameraSwitch.Instance.SetOgPosition();
+
+        foreach (GameObject chassis in chasisList)
+        {
+            foreach (Transform carPart in chassis.transform)
+            {
+                if (carPart.GetComponent<Renderer>() == null)
+                {
+                    foreach (Transform child in carPart)
+                        child.gameObject.SetActive(false);
+                    carPart.GetChild(0).gameObject.SetActive(true);
+                }
+            }
+        }
+        activeCarIdx = 0;
+        activeTyreIdx = 0;
+        activeSpoilerIdx = 0;
+        activeHoodIdx = 0;
+        activeBumperIdx = 0;
     }
 
     public void ChasisSwitch(int newChasisIdx)
@@ -91,7 +111,6 @@ public class PaintingLogic : MonoBehaviour
     {
         activeCarMeshRenderers = new List<MeshRenderer>();
         activeCarMeshRenderers.Add(chasisList[activeCarIdx].transform.GetChild(0).GetComponent<MeshRenderer>());
-        activeCarMeshRenderers.Add(chasisList[activeCarIdx].transform.GetChild(3).GetComponent<MeshRenderer>());
 
         spoilerGroup = chasisList[activeCarIdx].transform.GetChild(4);
         hoodGroup = chasisList[activeCarIdx].transform.GetChild(1);
@@ -105,6 +124,15 @@ public class PaintingLogic : MonoBehaviour
         hoodPanel.SetActive(false);
         bumperPanel.SetActive(false);
         paintingPanel.SetActive(true);
+
+        if (angleIdx == 2)
+            activeCarMeshRenderers.Add(chasisList[activeCarIdx].transform.GetChild(1).GetChild(activeHoodIdx).GetComponent<MeshRenderer>());
+        else if (angleIdx == 3)
+            activeCarMeshRenderers.Add(chasisList[activeCarIdx].transform.GetChild(2).GetChild(activeBumperIdx).GetComponent<MeshRenderer>());
+        else if (angleIdx == 4)
+            activeCarMeshRenderers.Add(chasisList[activeCarIdx].transform.GetChild(3).GetComponent<MeshRenderer>());
+        else if (angleIdx == 5)
+            activeCarMeshRenderers.Add(chasisList[activeCarIdx].transform.GetChild(4).GetChild(activeSpoilerIdx).GetComponent<MeshRenderer>());
     }
 
     int angleIdx = 0;
@@ -179,7 +207,7 @@ public class PaintingLogic : MonoBehaviour
         { /// Roof
             roofMat.SetColor("_oldColor", roofMat.GetColor("_newColor"));
             roofMat.SetColor("_newColor", mat.color);
-            activeCarMeshRenderers[1].GetComponent<Animation>().Play("Roof Fill Anim");
+            activeCarMeshRenderers[3].GetComponent<Animation>().Play("Roof Fill Anim");
         }
     }
 
@@ -222,7 +250,7 @@ public class PaintingLogic : MonoBehaviour
         Material mat = matsContainer[stickerIdx];
         foreach (MeshRenderer meshRenderer in activeCarMeshRenderers)
         {
-            Material[] mats = meshRenderer.materials;
+            Material[] mats = meshRenderer.sharedMaterials;
             mats[mats.Length - 1] = mat;
             meshRenderer.materials = mats;
         }
@@ -263,6 +291,6 @@ public class PaintingLogic : MonoBehaviour
         gameplayCanvas.SetActive(true);
 
         //int matIdx = chasisList[activeCarIdx].GetComponent<P3dPaintableTexture>().Slot.Index;
-        purchaseLogicScript.GetLatestFactory().SetupCar(activeCarIdx, activeTyreIdx, activeSpoilerIdx, activeCarMeshRenderers);
+        purchaseLogicScript.GetLatestFactory().SetupCar(activeCarIdx, activeTyreIdx, activeSpoilerIdx, activeHoodIdx, activeBumperIdx, activeCarMeshRenderers);
     }
 }

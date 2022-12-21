@@ -232,13 +232,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5017931801146362902}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0.7071068, w: 0}
-  m_LocalPosition: {x: 0.23944648, y: 0.1783308, z: -0.007169056}
-  m_LocalScale: {x: 15.533024, y: 15.533023, z: 15.533022}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.31099328, y: -0.030782891, z: 0.017144019}
+  m_LocalScale: {x: 0.62729305, y: 0.5700592, z: 0.25001714}
   m_Children: []
   m_Father: {fileID: 5017931801795172685}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 180}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5017931801336054293
 GameObject:
   m_ObjectHideFlags: 0
@@ -435,6 +435,7 @@ GameObject:
   - component: {fileID: 5017931801795172683}
   - component: {fileID: 5017931801795172681}
   - component: {fileID: 5017931801795172682}
+  - component: {fileID: 3724998244407776470}
   m_Layer: 5
   m_Name: Factory
   m_TagString: Untagged
@@ -450,8 +451,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5017931801795172680}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.73, y: 3.09, z: 0}
-  m_LocalScale: {x: 3.4146862, y: 3.4146862, z: 3.4146862}
+  m_LocalPosition: {x: -3.9624014, y: 2.5244992, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 5017931802777259299}
   - {fileID: 4767622186160909919}
@@ -524,11 +525,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df058e38c94d3f248b34feed55e1fe7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  carPrefabs: []
-  carPaint: {fileID: 0}
+  carPrefabs:
+  - {fileID: 0}
+  carPaint:
+  - {fileID: 0}
   numberOfInstances: 300
   spawnPosition: {fileID: 5017931801146362903}
   spawnSpeed: 2.5
+  mainGameplayScene: {fileID: 0}
 --- !u!114 &5017931801795172682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -541,8 +545,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7feb939c8993704694ad7a40994f94e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleSpeed: 0.5
   factoryScript: {fileID: 5017931801795172681}
+--- !u!111 &3724998244407776470
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5017931801795172680}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 03b44d5b8ab8fb847a2016182f23d3d1, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 03b44d5b8ab8fb847a2016182f23d3d1, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &5017931802498925618
 GameObject:
   m_ObjectHideFlags: 0
@@ -803,6 +822,7 @@ MonoBehaviour:
   trackSpeed: 4
   trackMat: {fileID: 2100000, guid: e5d66f40c8eff3e49ac88d4825d7c55d, type: 2}
   slipperyMat: {fileID: 13400000, guid: 84d14df4c82d99a4d970cb0af5a9d2a5, type: 2}
+  mainTrack: {fileID: 0}
 --- !u!1 &5017931802651948601
 GameObject:
   m_ObjectHideFlags: 0
@@ -1266,7 +1286,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3991807583689724567, guid: f2122399988081548a766859e64d0283, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3991807585369581635, guid: f2122399988081548a766859e64d0283, type: 3}
       propertyPath: m_LocalPosition.x

@@ -9,7 +9,6 @@ public class MiniTrackLogic : MonoBehaviour
     public Material trackMat;
     float matTrackSpeed;
 
-    [SerializeField]
     List<Transform> onTrackCars;
     List<Transform> toBeRemovedCars;
 
@@ -55,12 +54,9 @@ public class MiniTrackLogic : MonoBehaviour
     public void RemoveCarFromList(Transform car)
     {
         if (car != null)
-        {
-            Debug.Log("Removed");
             onTrackCars.Remove(car);
-        }
     }
-    
+
     void OnCollisionEnter(Collision other)
     {
         if (!onTrackCars.Contains(other.transform))

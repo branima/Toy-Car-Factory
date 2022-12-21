@@ -38,6 +38,7 @@ Material:
     m_Floats:
     - Vector1_fd47b7b414394666be695af3ae61dbdf: 1.5
     - _TextureSpeed: 1.89
+    - timeConstant: 5
     m_Colors:
     - Vector2_d2f3d9170c354607af9ff9bed8f98bff: {r: 1, g: 50, b: 0, a: 0}
   m_BuildTextureStacks: []

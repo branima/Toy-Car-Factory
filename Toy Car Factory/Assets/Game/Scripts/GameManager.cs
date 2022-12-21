@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     public SellingBoxLogic boxLogic;
 
     public int nextLevelPrice;
-
+    
     void Start()
     {
         AddMoney(0);

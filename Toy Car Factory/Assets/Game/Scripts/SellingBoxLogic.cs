@@ -17,8 +17,6 @@ public class SellingBoxLogic : MonoBehaviour
     int collectedMoney;
     public TextMeshProUGUI collectedMoneyText;
 
-    List<Transform> boxContent;
-
     bool fullCapVisualsOn;
     public Animator textAnimator;
     public Material normalCapTextMat;
@@ -28,18 +26,27 @@ public class SellingBoxLogic : MonoBehaviour
 
     public GameObject tutorialArrow;
 
-    int lastBoxIdx;
-    public List<GameObject> carBoxes;
+    int lastCarIdx;
+    public List<GameObject> packedCars;
+
+    int lastUpdate;
+    public Transform truckUpgrades;
+    List<Transform> packedCarsPositions;
 
     void Start()
     {
         capacityText.text = currCapacity + "/" + maxCapacity;
         collectedMoneyText.text = "$0";
 
-        boxContent = new List<Transform>();
         fullCapVisualsOn = false;
         capacityText.fontSharedMaterial = normalCapTextMat;
-        lastBoxIdx = -1;
+        lastCarIdx = -1;
+
+        lastUpdate = 0;
+        packedCarsPositions = new List<Transform>();
+        truckUpgrades.GetChild(lastUpdate).gameObject.SetActive(true);
+        foreach (Transform pos in truckUpgrades.GetChild(lastUpdate))
+            packedCarsPositions.Add(pos);
     }
 
     void OnTriggerEnter(Collider other)
@@ -47,16 +54,17 @@ public class SellingBoxLogic : MonoBehaviour
         ScaleToNothing stn = other.GetComponent<ScaleToNothing>();
         if (stn == null)
         {
-            TruckFillingVisuals(other.transform.GetChild(other.transform.childCount - 1));
+            mainTrackScript.RemoveCarFromList(other.transform);
             if (currCapacity < maxCapacity)
             {
+                packedCars.Add(other.gameObject);
+                TruckFillingVisuals(other.transform);
                 if (tutorialArrow != null && !tutorialArrow.activeSelf)
                     tutorialArrow.SetActive(true);
 
-                boxContent.Add(other.transform);
                 capacityText.text = ++currCapacity + "/" + maxCapacity;
 
-                collectedMoney += other.GetComponent<BoxAttributes>().GetPrice();
+                collectedMoney += other.GetComponent<CarAttributes>().GetPrice();
                 collectedMoneyText.text = collectedMoney.ToString();
                 if (collectedMoney < 1000)
                     collectedMoneyText.text = "$" + collectedMoney;
@@ -71,31 +79,27 @@ public class SellingBoxLogic : MonoBehaviour
                     textAnimator.SetBool("full", true);
                     capacityText.fontSharedMaterial = fullCapTextMat;
                 }
-
-                //stn = other.gameObject.AddComponent<ScaleToNothing>();
-                //stn.scaleSpeed = 0.25f;
             }
             else
             {
-                //stn = other.gameObject.AddComponent<ScaleToNothing>();
-                //stn.scaleSpeed = 0.25f;
                 ReturnToPool(other.transform);
+                other.gameObject.SetActive(false);
             }
-            other.gameObject.SetActive(false);
         }
     }
 
-    public void ReturnToPool(Transform carBox)
+    void UpgradeTruck()
     {
-        mainTrackScript.RemoveCarFromList(carBox);
-        if (carBox.childCount > 1)
-        {
-            Transform car = carBox.GetChild(1);
-            car.parent = null;
-            car.GetComponent<CarAttributes>().GetOriginFactory().EnqueueCar(car);
-        }
-        carBox.gameObject.SetActive(false);
-        ObjectPooler.Instance.Enqueue("Box", carBox.gameObject);
+        lastUpdate++;
+        truckUpgrades.GetChild(lastUpdate).gameObject.SetActive(true);
+        foreach (Transform pos in truckUpgrades.GetChild(lastUpdate))
+            packedCarsPositions.Add(pos);
+    }
+
+    public void ReturnToPool(Transform car)
+    {
+        mainTrackScript.RemoveCarFromList(car);
+        car.GetComponent<CarAttributes>().GetOriginFactory().EnqueueCar(car);
     }
 
     public void Sell()
@@ -111,32 +115,14 @@ public class SellingBoxLogic : MonoBehaviour
         collectedMoney = 0;
         collectedMoneyText.text = "$" + collectedMoney.ToString();
 
-        foreach (Transform carBox in boxContent)
+        lastCarIdx = -1;
+        foreach (GameObject item in packedCars)
         {
-            /*
-            Transform car = carBox.GetChild(1);
-            foreach (Transform wheel in car)
-                wheel.gameObject.SetActive(false);
-            car.parent = null;
-            car.GetComponent<CarAttributes>().GetOriginFactory().EnqueueCar(car);
-            carBox.gameObject.SetActive(false);
-            ObjectPooler.Instance.Enqueue("Box", carBox.gameObject);
-            */
-            ReturnToPool(carBox);
+            item.transform.parent = null;
+            item.GetComponent<CarAttributes>().GetOriginFactory().EnqueueCar(item.transform);
+            item.SetActive(false);
         }
-        boxContent.Clear();
-
-        lastBoxIdx = -1;
-        foreach (GameObject item in carBoxes)
-        {
-            if (item.activeSelf)
-            {
-                Transform car = item.transform.GetChild(1);
-                car.parent = null;
-                car.GetComponent<CarAttributes>().GetOriginFactory().EnqueueCar(car);
-                item.SetActive(false);
-            }
-        }
+        packedCars.Clear();
 
         currCapacity = 0;
         capacityText.text = currCapacity + "/" + maxCapacity;
@@ -144,28 +130,27 @@ public class SellingBoxLogic : MonoBehaviour
         fullCapVisualsOn = false;
         textAnimator.SetBool("full", false);
         capacityText.fontSharedMaterial = normalCapTextMat;
-
-
     }
 
     public int GetCurrentCapacity() => currCapacity;
 
     public void UpgradeBoxCapacity(float capacityModif)
     {
-        maxCapacity = (int)(maxCapacity * capacityModif);
+        maxCapacity += 3;
         capacityText.text = currCapacity + "/" + maxCapacity;
+        UpgradeTruck();
     }
 
     void TruckFillingVisuals(Transform car)
     {
-        lastBoxIdx++;
-        if (lastBoxIdx < carBoxes.Count)
-        {
-            carBoxes[lastBoxIdx].SetActive(true);
-            car.parent = carBoxes[lastBoxIdx].transform;
-            car.position = car.parent.GetChild(0).position;
-            car.rotation = car.parent.GetChild(0).rotation;
-            car.localScale = car.parent.GetChild(0).localScale; ///1.73
-        }
+        Rigidbody rb = car.GetComponent<Rigidbody>();
+        rb.useGravity = false;
+        rb.isKinematic = true;
+        lastCarIdx++;
+        car.parent = truckUpgrades;
+        car.position = packedCarsPositions[lastCarIdx].position;
+        car.rotation = packedCarsPositions[lastCarIdx].rotation;
+        car.localScale = packedCarsPositions[lastCarIdx].localScale;
+        car.GetComponent<Animation>().Play("Car Truck Scale In Anim");
     }
 }
