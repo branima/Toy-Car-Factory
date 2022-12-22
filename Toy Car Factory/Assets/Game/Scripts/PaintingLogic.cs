@@ -19,6 +19,8 @@ public class PaintingLogic : MonoBehaviour
 
     public GameObject swipeToMoveTutorialPanel;
 
+    public Material highlightMat;
+
     [Header("Chasis Selection")]
     public List<GameObject> chasisList;
     public GameObject chasisSelectionPanel;
@@ -27,6 +29,9 @@ public class PaintingLogic : MonoBehaviour
 
     [Header("Painting")]
     public GameObject paintingPanel;
+    public Transform colorIcons;
+    int glowIdx;
+    Color transpWhite = new Color(1, 1, 1, 0f);
     public Material bodyMat;
     public Material haubaMat;
     public Material roofMat;
@@ -92,12 +97,16 @@ public class PaintingLogic : MonoBehaviour
                     carPart.GetChild(0).gameObject.SetActive(true);
                 }
             }
+            foreach (Transform item in chassis.transform.GetChild(chassis.transform.childCount - 1))
+                item.gameObject.SetActive(true);
         }
         activeCarIdx = 0;
         activeTyreIdx = 0;
         activeSpoilerIdx = 0;
         activeHoodIdx = 0;
         activeBumperIdx = 0;
+
+        glowIdx = 0;
     }
 
     public void ChasisSwitch(int newChasisIdx)
@@ -125,13 +134,18 @@ public class PaintingLogic : MonoBehaviour
         bumperPanel.SetActive(false);
         paintingPanel.SetActive(true);
 
-        if (angleIdx == 2)
+        if (angleIdx == 2) /// HAUBA
+        {
+            //chasisList[activeCarIdx].transform.GetChild(1).GetChild(activeHoodIdx).GetComponent<Animation>().Stop("Hood Highlight Anim");
+            //chasisList[activeCarIdx].transform.GetChild(1).GetChild(activeHoodIdx).GetComponent<MeshRenderer>().sharedMaterial = haubaMat;
+            //chasisList[activeCarIdx].transform.GetChild(1).GetChild(activeHoodIdx).localScale = Vector3.one;
             activeCarMeshRenderers.Add(chasisList[activeCarIdx].transform.GetChild(1).GetChild(activeHoodIdx).GetComponent<MeshRenderer>());
-        else if (angleIdx == 3)
+        }
+        else if (angleIdx == 3) /// BUMPER
             activeCarMeshRenderers.Add(chasisList[activeCarIdx].transform.GetChild(2).GetChild(activeBumperIdx).GetComponent<MeshRenderer>());
-        else if (angleIdx == 4)
+        else if (angleIdx == 4) /// ROOF
             activeCarMeshRenderers.Add(chasisList[activeCarIdx].transform.GetChild(3).GetComponent<MeshRenderer>());
-        else if (angleIdx == 5)
+        else if (angleIdx == 5) /// SPOILERS
             activeCarMeshRenderers.Add(chasisList[activeCarIdx].transform.GetChild(4).GetChild(activeSpoilerIdx).GetComponent<MeshRenderer>());
     }
 
@@ -187,7 +201,7 @@ public class PaintingLogic : MonoBehaviour
         {  /// Body
             bodyMat.SetColor("_oldColor", bodyMat.GetColor("_newColor"));
             bodyMat.SetColor("_newColor", mat.color);
-            activeCarMeshRenderers[0].GetComponent<Animation>().Play("Body Fill Anim");
+            activeCarMeshRenderers[0].GetComponent<Animation>().Play();
         }
         else if (angleIdx == 2)
         { /// Hauba
@@ -201,20 +215,30 @@ public class PaintingLogic : MonoBehaviour
             bumperMat.SetColor("_oldColor", bumperMat.GetColor("_newColor"));
             bumperMat.SetColor("_newColor", mat.color);
             //activeCarMeshRenderers[2].GetComponent<Animation>().Play("Roof Fill Anim");
-            chasisList[activeCarIdx].transform.GetChild(2).GetChild(activeBumperIdx).GetComponent<Animation>().Play("Bumper Fill Anim");
+            chasisList[activeCarIdx].transform.GetChild(2).GetChild(activeBumperIdx).GetComponent<Animation>().Play();
         }
         else if (angleIdx == 4)
         { /// Roof
             roofMat.SetColor("_oldColor", roofMat.GetColor("_newColor"));
             roofMat.SetColor("_newColor", mat.color);
-            activeCarMeshRenderers[3].GetComponent<Animation>().Play("Roof Fill Anim");
+            activeCarMeshRenderers[3].GetComponent<Animation>().Play();
         }
     }
 
     public void EnableHoodSelection()
     {
+        //foreach (Transform item in chasisList[activeCarIdx].transform.GetChild(1))
+        //    item.GetComponent<MeshRenderer>().sharedMaterial = highlightMat;
+
+        //chasisList[activeCarIdx].transform.GetChild(1).GetChild(activeHoodIdx).GetComponent<Animation>().Play("Hood Highlight Anim");
         paintingPanel.SetActive(false);
         hoodPanel.SetActive(true);
+    }
+
+    public void ConfirmHoodSelection()
+    {
+        chasisList[activeCarIdx].transform.GetChild(1).GetChild(activeHoodIdx).GetComponent<MeshRenderer>().sharedMaterial = haubaMat;
+        EnablePaintingPanel();
     }
 
     public void EnableBumperSelection()
@@ -228,6 +252,7 @@ public class PaintingLogic : MonoBehaviour
         hoodGroup.GetChild(activeHoodIdx).gameObject.SetActive(false);
         activeHoodIdx = hoodIdx;
         hoodGroup.GetChild(activeHoodIdx).gameObject.SetActive(true);
+        //chasisList[activeCarIdx].transform.GetChild(1).GetChild(activeHoodIdx).GetComponent<Animation>().Play("Hood Highlight Anim");
     }
 
     public void SelectBumper(int bumperIdx)
@@ -239,7 +264,7 @@ public class PaintingLogic : MonoBehaviour
 
     public void SelectSpoiler(int spoilerIdx)
     {
-        spoilerGroup.GetComponent<Animation>().Play("Spoiler Anim");
+        spoilerGroup.GetComponent<Animation>().Play();
         spoilerGroup.GetChild(activeSpoilerIdx).gameObject.SetActive(false);
         activeSpoilerIdx = spoilerIdx;
         spoilerGroup.GetChild(activeSpoilerIdx).gameObject.SetActive(true);
@@ -259,7 +284,7 @@ public class PaintingLogic : MonoBehaviour
     public void EnableTyreSelection()
     {
         tyreSelectionPanel.SetActive(true);
-        tyreSetsParent = chasisList[activeCarIdx].transform.GetChild(chasisList[activeCarIdx].transform.childCount - 1);
+        tyreSetsParent = chasisList[activeCarIdx].transform.GetChild(chasisList[activeCarIdx].transform.childCount - 2);
         activeTyreIdx = 0;
     }
 
@@ -268,7 +293,7 @@ public class PaintingLogic : MonoBehaviour
         tyreSetsParent.GetChild(activeTyreIdx).gameObject.SetActive(false);
         activeTyreIdx = newTyreIdx;
         tyreSetsParent.GetChild(activeTyreIdx).gameObject.SetActive(true);
-        tyreSetsParent.GetChild(activeTyreIdx).GetComponent<Animation>().Play("Tyre Set " + (activeTyreIdx + 1) + " Anim");
+        tyreSetsParent.GetChild(activeTyreIdx).GetComponent<Animation>().Play();
     }
 
     public void Confirm()
@@ -292,5 +317,12 @@ public class PaintingLogic : MonoBehaviour
 
         //int matIdx = chasisList[activeCarIdx].GetComponent<P3dPaintableTexture>().Slot.Index;
         purchaseLogicScript.GetLatestFactory().SetupCar(activeCarIdx, activeTyreIdx, activeSpoilerIdx, activeHoodIdx, activeBumperIdx, activeCarMeshRenderers);
+    }
+
+    public void Glow(int idx)
+    {
+        colorIcons.GetChild(glowIdx).GetComponent<Image>().color = transpWhite;
+        glowIdx = idx;
+        colorIcons.GetChild(glowIdx).GetComponent<Image>().color = Color.white;
     }
 }
