@@ -40,7 +40,7 @@ public class FactoryLogic : MonoBehaviour
         for (int i = 0; i < numberOfInstances; i++)
         {
             carInst = Instantiate(selectedCarPrefab, Vector3.zero, selectedCarPrefab.rotation, null).transform;
-            carInst.GetComponent<CarAttributes>().SetOriginFactory(this);
+            carInst.GetComponent<CarAttributes>().SetOriginFactory(this, miniTrackScript);
 
             carInst.GetChild(1).GetChild(selectedHoodIdx).gameObject.SetActive(true);
             carInst.GetChild(2).GetChild(selectedBumperIdx).gameObject.SetActive(true);
@@ -61,11 +61,13 @@ public class FactoryLogic : MonoBehaviour
             }
             renderers.Clear();
 
-            Transform spoiler = carInst.GetChild(4).GetChild(selectedSpoilerIdx);
-            spoiler.GetComponent<MeshRenderer>().sharedMaterial = carPaint[0];
-            foreach (Transform item in spoiler)
-                item.GetComponent<MeshRenderer>().sharedMaterial = carPaint[2];
-
+            if (selectedSpoilerIdx != 0)
+            {
+                Transform spoiler = carInst.GetChild(4).GetChild(selectedSpoilerIdx);
+                spoiler.GetComponent<MeshRenderer>().sharedMaterial = carPaint[0];
+                foreach (Transform item in spoiler)
+                    item.GetComponent<MeshRenderer>().sharedMaterial = carPaint[2];
+            }
             carPool.Enqueue(carInst);
         }
     }

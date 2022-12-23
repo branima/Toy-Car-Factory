@@ -36,7 +36,7 @@ Material:
     - Vector1_62b6053c546443aebfac0e1c50a2cc0e: 1
     - Vector1_91b447eab34e49209ef125337face8fd: 7
     - _fillThreshold: -3
-    - _fill_Threshold: 0.99
+    - _fill_Threshold: 0
     - _fill_threshold: 0
     m_Colors:
     - Color_cf4c9092c5114cf7aa15103c29db45fb: {r: 1, g: 1, b: 1, a: 0}

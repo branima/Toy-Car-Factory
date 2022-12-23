@@ -22,13 +22,13 @@ public class PaintingLogic : MonoBehaviour
     public Material highlightMat;
 
     [Header("Chasis Selection")]
+    GameObject chasisSelectionPanel;
     public List<GameObject> chasisList;
-    public GameObject chasisSelectionPanel;
     int activeCarIdx;
     List<MeshRenderer> activeCarMeshRenderers;
 
     [Header("Painting")]
-    public GameObject paintingPanel;
+    GameObject paintingPanel;
     public Transform colorIcons;
     int glowIdx;
     Color transpWhite = new Color(1, 1, 1, 0f);
@@ -38,28 +38,39 @@ public class PaintingLogic : MonoBehaviour
     public Material bumperMat;
 
     [Header("Spoiler")]
-    public GameObject spoilerPanel;
+    GameObject spoilerPanel;
     Transform spoilerGroup;
     int activeSpoilerIdx;
 
     [Header("Hood")]
-    public GameObject hoodPanel;
+    GameObject hoodPanel;
     Transform hoodGroup;
     int activeHoodIdx;
 
     [Header("Bumper")]
-    public GameObject bumperPanel;
+    GameObject bumperPanel;
     Transform bumperGroup;
     int activeBumperIdx;
 
     [Header("Stickering")]
-    public GameObject stickeringPanel;
+    GameObject stickeringPanel;
     List<Material> matsContainer;
 
     [Header("Tyre Selection")]
-    public GameObject tyreSelectionPanel;
+    GameObject tyreSelectionPanel;
     Transform tyreSetsParent;
     int activeTyreIdx;
+
+    void Awake()
+    {
+        chasisSelectionPanel = diyCanvas.transform.GetChild(0).gameObject;
+        paintingPanel = diyCanvas.transform.GetChild(1).gameObject;
+        hoodPanel = diyCanvas.transform.GetChild(2).gameObject;
+        bumperPanel = diyCanvas.transform.GetChild(3).gameObject;
+        spoilerPanel = diyCanvas.transform.GetChild(4).gameObject;
+        stickeringPanel = diyCanvas.transform.GetChild(5).gameObject;
+        tyreSelectionPanel = diyCanvas.transform.GetChild(6).gameObject;
+    }
 
     public void EnableChasisSelection()
     {
@@ -97,8 +108,6 @@ public class PaintingLogic : MonoBehaviour
                     carPart.GetChild(0).gameObject.SetActive(true);
                 }
             }
-            foreach (Transform item in chassis.transform.GetChild(chassis.transform.childCount - 1))
-                item.gameObject.SetActive(true);
         }
         activeCarIdx = 0;
         activeTyreIdx = 0;
@@ -133,6 +142,8 @@ public class PaintingLogic : MonoBehaviour
         hoodPanel.SetActive(false);
         bumperPanel.SetActive(false);
         paintingPanel.SetActive(true);
+
+        colorIcons.GetChild(glowIdx).GetComponent<Image>().color = transpWhite;
 
         if (angleIdx == 2) /// HAUBA
         {
@@ -284,7 +295,7 @@ public class PaintingLogic : MonoBehaviour
     public void EnableTyreSelection()
     {
         tyreSelectionPanel.SetActive(true);
-        tyreSetsParent = chasisList[activeCarIdx].transform.GetChild(chasisList[activeCarIdx].transform.childCount - 2);
+        tyreSetsParent = chasisList[activeCarIdx].transform.GetChild(5);
         activeTyreIdx = 0;
     }
 

@@ -9,6 +9,7 @@ public class MiniTrackLogic : MonoBehaviour
     public Material trackMat;
     float matTrackSpeed;
 
+    [SerializeField]
     List<Transform> onTrackCars;
     List<Transform> toBeRemovedCars;
 
@@ -27,25 +28,13 @@ public class MiniTrackLogic : MonoBehaviour
     void Update()
     {
         foreach (Transform car in onTrackCars)
-        {
             if (car != null)
-            {
-                //Debug.Log(Mathf.Abs(car.position.x - mainTrack.position.x));
-                if (Mathf.Abs(car.position.x - mainTrack.position.x) < 0.01f)
-                    toBeRemovedCars.Add(car);
                 car.transform.position += transform.forward * trackSpeed * Time.deltaTime;
-            }
-        }
 
         foreach (Transform car in toBeRemovedCars)
-        {
             if (car != null)
-            {
-                //Debug.Log(car);
-                //car.GetComponent<Collider>().material = slipperyMat;
                 RemoveCarFromList(car);
-            }
-        }
+
         toBeRemovedCars.Clear();
     }
 
@@ -62,13 +51,4 @@ public class MiniTrackLogic : MonoBehaviour
         if (!onTrackCars.Contains(other.transform))
             onTrackCars.Add(other.transform);
     }
-
-    //void OnCollisionExit(Collision other) => RemoveCarFromList(other.transform);
-    /*
-    void OnCollisionExit(Collision other)
-    {
-        other.transform.GetComponent<Collider>().material = slipperyMat;
-        RemoveCarFromList(other.transform);
-    }
-    */
 }

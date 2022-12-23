@@ -114,7 +114,10 @@ public class SellingBoxLogic : MonoBehaviour
         gameManager.AddMoney(collectedMoney);
         collectedMoney = 0;
         collectedMoneyText.text = "$" + collectedMoney.ToString();
+    }
 
+    public void ClearTruck()
+    {
         lastCarIdx = -1;
         foreach (GameObject item in packedCars)
         {

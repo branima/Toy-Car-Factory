@@ -39,6 +39,8 @@ public class MainTrackLogic : MonoBehaviour
         other.transform.GetComponent<Collider>().material = null;
         if (!onTrackCars.Contains(other.transform))
             onTrackCars.Add(other.transform);
+
+        other.transform.GetComponent<CarAttributes>().GetMiniTrackScript().RemoveCarFromList(other.transform);
     }
 
     public void RemoveCarFromList(Transform car)

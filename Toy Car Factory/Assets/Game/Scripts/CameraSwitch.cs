@@ -8,6 +8,8 @@ public class CameraSwitch : MonoBehaviour
     public Transform cam;
     public List<Transform> positions;
 
+    public float camSpeed;
+
     int currActive;
     Transform currActiveTransform;
 
@@ -28,7 +30,7 @@ public class CameraSwitch : MonoBehaviour
     {
         if (reposition)
         {
-            repoTime += Time.deltaTime * 0.1f;
+            repoTime += Time.deltaTime * 0.1f * camSpeed;
             if (cam.position != currActiveTransform.position)
                 cam.position = Vector3.Lerp(cam.position, currActiveTransform.position, repoTime);
 
