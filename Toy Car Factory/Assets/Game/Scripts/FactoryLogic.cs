@@ -39,7 +39,7 @@ public class FactoryLogic : MonoBehaviour
         List<Renderer> renderers = new List<Renderer>();
         for (int i = 0; i < numberOfInstances; i++)
         {
-            carInst = Instantiate(selectedCarPrefab, Vector3.zero, selectedCarPrefab.rotation, null).transform;
+            carInst = Instantiate(selectedCarPrefab, Vector3.zero, selectedCarPrefab.rotation, mainGameplayScene).transform;
             carInst.GetComponent<CarAttributes>().SetOriginFactory(this, miniTrackScript);
 
             carInst.GetChild(1).GetChild(selectedHoodIdx).gameObject.SetActive(true);

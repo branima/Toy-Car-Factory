@@ -41,6 +41,7 @@ public class MainTrackLogic : MonoBehaviour
             onTrackCars.Add(other.transform);
 
         other.transform.GetComponent<CarAttributes>().GetMiniTrackScript().RemoveCarFromList(other.transform);
+        other.gameObject.layer = LayerMask.NameToLayer("Car");
     }
 
     public void RemoveCarFromList(Transform car)

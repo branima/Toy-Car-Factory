@@ -55,6 +55,7 @@ public class PaintingLogic : MonoBehaviour
     [Header("Stickering")]
     GameObject stickeringPanel;
     List<Material> matsContainer;
+    public Material blankStickerMat;
 
     [Header("Tyre Selection")]
     GameObject tyreSelectionPanel;
@@ -108,6 +109,11 @@ public class PaintingLogic : MonoBehaviour
                     carPart.GetChild(0).gameObject.SetActive(true);
                 }
             }
+            Renderer rend = chassis.transform.GetChild(0).GetComponent<Renderer>();
+            Material[] mats = rend.sharedMaterials;
+            mats[1] = blankStickerMat;
+            rend.sharedMaterials = mats;
+
         }
         activeCarIdx = 0;
         activeTyreIdx = 0;
@@ -146,12 +152,7 @@ public class PaintingLogic : MonoBehaviour
         colorIcons.GetChild(glowIdx).GetComponent<Image>().color = transpWhite;
 
         if (angleIdx == 2) /// HAUBA
-        {
-            //chasisList[activeCarIdx].transform.GetChild(1).GetChild(activeHoodIdx).GetComponent<Animation>().Stop("Hood Highlight Anim");
-            //chasisList[activeCarIdx].transform.GetChild(1).GetChild(activeHoodIdx).GetComponent<MeshRenderer>().sharedMaterial = haubaMat;
-            //chasisList[activeCarIdx].transform.GetChild(1).GetChild(activeHoodIdx).localScale = Vector3.one;
             activeCarMeshRenderers.Add(chasisList[activeCarIdx].transform.GetChild(1).GetChild(activeHoodIdx).GetComponent<MeshRenderer>());
-        }
         else if (angleIdx == 3) /// BUMPER
             activeCarMeshRenderers.Add(chasisList[activeCarIdx].transform.GetChild(2).GetChild(activeBumperIdx).GetComponent<MeshRenderer>());
         else if (angleIdx == 4) /// ROOF

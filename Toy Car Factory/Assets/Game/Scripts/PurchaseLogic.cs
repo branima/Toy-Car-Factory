@@ -31,7 +31,7 @@ public class PurchaseLogic : MonoBehaviour
                     gameplayCanvas.SetActive(false);
                     paintingScene.SetActive(true);
                     paintingCanvas.SetActive(true);
-
+                    
                     ///SCENE SWITCH BACK
                     ///MAIN GAMEPLAY RESUME
                     gameManager.AddMoney(-price);

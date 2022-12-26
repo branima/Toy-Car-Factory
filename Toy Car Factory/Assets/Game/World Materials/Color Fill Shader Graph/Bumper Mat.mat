@@ -40,6 +40,6 @@ Material:
     - _fill_threshold: 0
     m_Colors:
     - Color_cf4c9092c5114cf7aa15103c29db45fb: {r: 1, g: 1, b: 1, a: 0}
-    - _newColor: {r: 0.9529411, g: 0.8666667, b: 0, a: 1}
+    - _newColor: {r: 1, g: 1, b: 1, a: 1}
     - _oldColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
